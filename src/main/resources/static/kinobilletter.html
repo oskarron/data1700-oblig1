@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sondre,er feit.kom</title>
+</head>
+<body>
+<h1>Bestilling av kinobilletter</h1>
+<label for="filmValg">Velg film her: </label><select id="filmValg">
+    <option value="haisommer">haisommer</option>
+    <option value="haisommer 2">haisommer 2</option>
+    <option value="haisommer 3">haisommer 3</option>
+</select>
+<br>
+<br>
+<label for="antallInput">Antall</label><input type="text" min="0" id="antallInput">
+<p id="antallError" style="color:red;"></p>
+<label for="fornavnInput">fornavn</label> <input type="text" id="fornavnInput">
+<p id="fornavnError" style="color:red;"></p>
+<label for="etternavnInput">etternavn</label><input type="text" id="etternavnInput">
+<p id="etternavnError" style="color:red;"></p>
+<label for="tlfInput">telefonNr</label><input type="text" id="tlfInput">
+<p id="telefonNrError" style="color:red;"></p>
+<label for="epostInput">epost</label><input type="text" id="epostInput">
+<p id="epostError" style="color:red;"></p>
+
+
+<button onclick="sjekkInput();">Kjøp billett</button>
+
+<h2>Alle billetter
+</h2>
+<h3>Film Antall</h3>
+
+    <script src="kinobilletter.js"></script>
+
+</body>
+</html>
