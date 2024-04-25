@@ -1,5 +1,12 @@
 
 let billettObjekter = [];
+function slettTabell(){
+    $.get("/slettAlle", function(){
+        $("#billetTabell tbody").empty();
+
+
+    })
+}
 
 function tryCatchTest(input, errorId, errorIkkeInput, pattern, errorUgyldig) {
 
@@ -32,31 +39,47 @@ function sjekkInput() {
 
     const fornavnGyldig = tryCatchTest(fornavn, "fornavnError", "Må skrive noe inn i fornavnet", /^\w+$/, "Ugyldig navn");
     const etternavnGyldig = tryCatchTest(etternavn, "etternavnError", "Må skrive noe inn i etternavnet", /^\w+$/, "ugyldig etternavn");
-    const telefonNrGyldig = tryCatchTest(telefonNr, "telefonNrError", "Må skrive noe inn i telefonnummeret", /^\d{8,10}$/, "ugyldig telefonnummer");
+    const telefonNrGyldig = tryCatchTest(telefonNr, "telefonNrError", "Må skrive noe inn i telefonnummeret", /^\d+$/, "ugyldig telefonnummer");
     const epostGyldig = tryCatchTest(epost, "epostError", "Må skrive noe inn e-posten", /^\w+@\w+\.\w{2,6}$/, "ugyldig epost");
     const antallGyldig = tryCatchTest(antall, "antallError", "Må skrive inn antall", /^\d+$/, "ugyldig antall");
 
     if (fornavnGyldig && etternavnGyldig && telefonNrGyldig && epostGyldig && antallGyldig) {
         let film = document.getElementById("filmValg").value;
-        let nyBillett = {film, antall, fornavn, etternavn, telefonNr, epost};
 
-        billettObjekter.push(nyBillett);
-        displayTickets();
+        let nyBillett = {film, antall, fornavn, etternavn, telefonNr, epost};
+        function hentAlle(){
+            $.get("/hentAlle", function(data){
+                displayTickets(data)
+                //formaterData(data);
+
+            })
+        }
+        //sender billett-objekt og lagrer på server, og kjører hentalle metoden som displayer dataen i tabell
+        $.post("/lagre", nyBillett, function() {
+            hentAlle();
+        });
+
+
+
+        //billettObjekter.push(nyBillett);
+        //displayTickets();
 
         document.getElementById("antallInput").value = "";
         document.getElementById("fornavnInput").value = "";
         document.getElementById("etternavnInput").value = "";
         document.getElementById("tlfInput").value = "";
         document.getElementById("epostInput").value = "";
+
     }
 }
 
-function displayTickets() {
+function displayTickets(liste) {
 
     document.getElementById("billett").innerHTML = "";
 
 
-    billettObjekter.forEach(ticket => {
+
+    liste.forEach(ticket => {
         let rad = document.createElement("tr");
         rad.innerHTML = `
                 <td>${ticket.film}</td>
@@ -68,5 +91,3 @@ function displayTickets() {
         document.getElementById("billett").appendChild(rad);
     });
 }
-
-
